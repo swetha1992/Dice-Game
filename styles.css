@@ -1,0 +1,86 @@
+body{
+		background-image: linear-gradient(to top right, orange, cyan);
+	}
+
+img{
+		border-radius: 14px;
+    	margin: 16px;
+    	margin-top: 120px;
+	}
+.wrapper{
+	width: 700px;
+	height: 450px;
+	position: absolute;
+	top: 15%;
+	left: 50%;
+    transform: translate(-50%, -5%);
+    background-color: #fff;
+    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    background-color: rgba(215, 251, 228, 0.9);
+}
+
+.player{
+	width: 280px;
+	height: 450px;
+}
+.player_one{
+	float: left;
+}
+.player_two {
+	float: right;
+	margin-top: -112px;
+}
+button{
+  background-color: #ec9558;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  margin-top: -6px;
+  color: #d65148;
+  font-family: 'Merienda', cursive;
+  text-shadow: 1px 1px #d65148;
+}
+
+.player_lable{
+	font-family: 'Merienda', cursive;
+	font-weight: bolder;
+	font-size: xx-large;
+	margin: 58px;
+	color: #ec9558;
+	text-shadow: 2px 2px #d65148;
+}
+.score{
+	font-family: 'Merienda', cursive;
+	margin: 80px;
+	color: #d65148;
+		font-size: 120px;
+}
+.dice{
+	width: 133px;
+	height: 110px;
+	margin-left: 285px; 
+	
+}
+.roll-me-button{
+	    margin-top: 53px;
+}
+.active{
+background-color: antiquewhite;
+border : 3px solid #d65148
+}
+.hide{
+	display: none;
+}
+.button-disable{
+	background-color: #c1bdbd;
+}
+.winner{
+	   border : 5px solid #0aab61;
+}
