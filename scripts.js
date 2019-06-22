@@ -1,65 +1,105 @@
-console.log("hello world")
-console.log(Math.floor(Math.random()*6) + 1);
+var player_state_active = 'active';
+var player_state_inactive = 'inactive';
+var button_state_enabled = 'enabled';
+var button_state_disabled = 'disabled';
 
-var player_score, player_score;
+var playerA = {
+	name :'A',
+	player_id :'player_1',
+	button_id :'rollA',
+	display_score_id :'player-1-score',
+	score : 0,
+	label_id : 'player_1_lable'
+};
+
+var playerB = {
+	name : 'B',
+	player_id :'player_2',
+	button_id :'rollB',
+	display_score_id :'player-2-score',
+	score :0,
+	label_id :'player_2_lable'
+};
+
 init();
-function init(){
-	
-	document.getElementById('player_1').classList.add('active');
-	document.getElementById('player-1-score').innerText =0;
-	document.getElementById('player-2-score').innerText =0;
-	document.getElementById("imagename").classList.add('hide');
-	active_player=1;
-	document.getElementById('rollA').classList.remove('button-disable');
-	document.getElementById('rollB').classList.add('button-disable');
-	document.getElementById('player_1').classList.remove('winner');
-	document.getElementById('player_2').classList.remove('winner');
-}
-
 document.getElementById('rollA').addEventListener('click', function(){
-	genrateRandom('A')
+	playGame(playerA);
 });
 
 document.getElementById('rollB').addEventListener('click', function(){
-	genrateRandom('B')
+	console.log("rollb event")
+	playGame(playerB);
 });
 
-function genrateRandom(player){
-	document.getElementById("imagename").classList.remove('hide');
-	var randomNumber=Math.floor(Math.random()*6) + 1;
-	document.getElementById("imagename").src="dice-"+randomNumber+".png";
-	if(randomNumber!=1){
-		playgame(active_player,randomNumber,player);
+
+function playGame(player){
+	console.log(player.name)
+	document.getElementById(player.button_id).disabled=false;
+	var diceValue = rollDice();
+	console.log(diceValue)
+	if(diceValue===1){
+		console.log("need to switch");
+		switchPlayer(player);
 	}else{
-		if(player ==='A'){
-			document.getElementById('rollA').classList.add('button-disable');
-			document.getElementById('rollB').classList.remove('button-disable');
-		}else{
-			document.getElementById('rollA').classList.remove('button-disable');
-			document.getElementById('rollB').classList.add('button-disable');
+		var score = calculateScore(player, diceValue);
+		if(score >=100){
+			makeWinner(player);
 		}
-	active_player = active_player===1? 2 :1;
-	document.getElementById('player_1').classList.toggle('active');
-	document.getElementById('player_2').classList.toggle('active');
-	playgame(active_player,randomNumber,player);	
 	}
 }
 
-function playgame(active_player,randomNumber, player){
-	var currentscore = document.getElementById('player-'+active_player+'-score').innerText;
-		var sum=parseInt(currentscore) + randomNumber;
-		document.getElementById('player-'+active_player+'-score').innerText =sum;
-		console.log(sum)
-		if(parseInt(sum)>=100){
-			document.getElementById('player_'+active_player+'_lable').innerText = 'WINNER';
-			document.getElementById('rollA').disabled=true;
-			document.getElementById('rollB').disabled=true;
-			document.getElementById('rollA').classList.add('button-disable');
-			document.getElementById('rollB').classList.add('button-disable');
-			document.getElementById('player_'+active_player).classList.add('winner');
-
-		}
+function rollDice(){
+	var randomNumber=Math.floor(Math.random()*6) + 1;
+	document.getElementById("image_id").src="dice-"+randomNumber+".png";
+	return randomNumber;
 }
 
+function switchPlayer(player){
+	console.log("switch")
+	document.getElementById(playerA.button_id).classList.toggle('button-disable');
+	document.getElementById(playerB.button_id).classList.toggle('button-disable');
+	document.getElementById(playerA.player_id).classList.toggle('active');
+	document.getElementById(playerB.player_id).classList.toggle('active');
+	//document.getElementById(player.button_id).disabled=true;
+	}
+	
 
+function calculateScore(player, diceValue){
+	player.score = player.score + diceValue;
+	displayScore(player.display_score_id, player.score);	
+	return player.score;
+}
 
+function makeWinner(player){
+	document.getElementById(player.label_id).innerText = 'WINNER';
+	//document.getElementById(playerA.button_id).disabled=true;
+	//document.getElementById(playerB.button_id).disabled=true;
+	addCssClass(playerA.button_id,'button-disable')
+	addCssClass(playerB.button_id,'button-disable')
+	addCssClass(player.player_id, 'winner')
+}
+
+function init(){
+	console.log("init")
+	addCssClass(playerA.player_id,player_state_active);
+	displayScore(playerA.display_score_id, 0);
+	displayScore(playerB.display_score_id, 0);
+	removeCssClass(playerA.player_id, 'winner')
+	removeCssClass(playerB.player_id, 'winner')
+	playerA.state = player_state_active;
+	removeCssClass(playerA.button_id, 'button-disable')
+	addCssClass(playerB.button_id, 'button-disable')
+	active_player='A';
+}
+
+function addCssClass(id_name, class_name){
+	document.getElementById(id_name).classList.add(class_name);
+}
+
+function removeCssClass(id_name, class_name){
+	document.getElementById(id_name).classList.remove(class_name);
+}
+
+function displayScore(id_name, score){
+	document.getElementById(id_name).innerText =score;
+}
